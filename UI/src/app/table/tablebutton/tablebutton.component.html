@@ -1,0 +1,94 @@
+<ng-container [ngSwitch]="btn.style">
+  <!-- 默认按钮 -->
+  <ng-container *ngSwitchDefault>
+    <ng-container *ngIf="isHidden()">
+      <button mat-button [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500" (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+        {{btn.content}}
+      </button>
+    </ng-container>
+  </ng-container>
+
+
+  <!-- 比较方的按钮 -->
+  <ng-container *ngSwitchCase="btnStyle.raised">
+    <ng-container *ngIf="isHidden()">
+      <button mat-raised-button [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500"
+        (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+        {{btn.content}}
+      </button>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="btnStyle.stroked">
+    <ng-container *ngIf="isHidden()">
+      <button mat-stroked-button [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500"
+        (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+        {{btn.content}}
+      </button>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="btnStyle.flat">
+    <ng-container *ngIf="isHidden()">
+      <button mat-flat-button [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500"
+        (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+        {{btn.content}}
+      </button>
+    </ng-container>
+  </ng-container>
+
+
+  <!-- 图标按钮 -->
+  <ng-container *ngSwitchCase="btnStyle.fab">
+    <ng-container *ngIf="isHidden()">
+      <button mat-fab [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500" (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+      </button>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="btnStyle.mini">
+    <ng-container *ngIf="isHidden()">
+      <button mat-mini-fab [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500" (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+      </button>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="btnStyle.icon">
+    <ng-container *ngIf="isHidden()">
+      <button mat-icon-button [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500"
+        (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+      </button>
+    </ng-container>
+  </ng-container>
+
+
+  <!-- 链接型按钮 -->
+  <ng-container *ngSwitchCase="btnStyle.link">
+    <ng-container *ngIf="isHidden()">
+      <a *ngSwitchCase="btnStyle.link" [href]="btn.getUrl?btn.getUrl(item):btn.url" mat-raised-button
+        [color]="btn.color" [matTooltip]="btn.content" [matTooltipShowDelay]="500" (click)="click()">
+        <mat-icon *ngIf="btn.icon">
+          {{btn.icon}}
+        </mat-icon>
+        {{btn.content}}
+      </a>
+    </ng-container>
+  </ng-container>
+</ng-container>

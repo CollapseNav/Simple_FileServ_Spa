@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidernavToggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span *ngIf="!isHandset">Simple FileService</span>
+  <span class="spacer"></span>
+  <!-- <input #upload hidden="true" multiple type="file" (change)="uploadFile(upload)"> -->
+  <button mat-icon-button (click)="addNewFiles()" [matTooltip]="'上传文件'">
+    <mat-icon>post_add</mat-icon>
+  </button>
+
+  <button mat-icon-button (click)="addNewFolder()" [matTooltip]="'新建文件夹'">
+    <mat-icon>create_new_folder</mat-icon>
+  </button>
+
+  <button mat-icon-button>
+    <mat-icon>delete_forever</mat-icon>
+  </button>
+</mat-toolbar>
+<!-- <ng-container *ngIf="file">
+  <app-progress [file]="file"></app-progress>
+</ng-container> -->

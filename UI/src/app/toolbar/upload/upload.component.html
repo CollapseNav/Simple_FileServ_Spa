@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>文件上传</h1>
+<div mat-dialog-content>
+  <ng-container *ngIf="uploadFiles.length>0">
+    <mat-label>文件列表</mat-label>
+    <mat-list>
+      <mat-list-item *ngFor="let file of uploadFiles">
+        <mat-icon mat-list-icon>article</mat-icon>
+        <div mat-line> {{file.index+1}}.{{file.file.name}}</div>
+        <div mat-line>
+          <span *ngIf="file.loaded">{{cur.resize(file.loaded)}}/</span> {{cur.resize(file.file.size) }}
+        </div>
+        <div mat-line>
+          <mat-progress-bar [value]="file.per"></mat-progress-bar>
+        </div>
+        <button mat-icon-button (click)="uploadFile(file.index)">
+          <mat-icon>publish</mat-icon>
+        </button>
+        <button mat-icon-button (click)="remove(file.index)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+  <input #upload hidden="true" multiple type="file" (change)="addNew(upload)">
+  <button mat-icon-button (click)="upload.click()" [matTooltip]="'添加新文件'">
+    <mat-icon>add</mat-icon>
+  </button>
+  <ng-container *ngIf="uploadFiles.length>0">
+    <button mat-icon-button [matTooltip]="'上传全部'" (click)="uploadAll()">
+      <mat-icon>
+        playlist_add
+      </mat-icon>
+    </button>
+    <button mat-icon-button [matTooltip]="'移除全部'" (click)="removeAll()">
+      <mat-icon>
+        clear
+      </mat-icon>
+    </button>
+  </ng-container>
+</div>
+<div mat-dialog-actions class="action">
+  <button mat-raised-button (click)="onNoClick()">取消</button>
+  <button #yes mat-raised-button [color]="'accent'" (click)="dialogRef.close()">确定</button>
+</div>

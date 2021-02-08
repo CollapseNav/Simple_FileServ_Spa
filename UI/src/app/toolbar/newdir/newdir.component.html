@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>新建文件夹</h1>
+<div mat-dialog-content>
+  <p>填个名字</p>
+  <mat-form-field>
+    <mat-label>新建文件夹</mat-label>
+    <input matInput [(ngModel)]="newDirName" (keyup.enter)="onEnter(newDirName)">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="action">
+  <button mat-raised-button (click)="close()">取消</button>
+  <button #yes mat-raised-button [color]="'accent'" (click)="addNewDir(newDirName)">确定</button>
+</div>

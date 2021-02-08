@@ -1,0 +1,17 @@
+<mat-card mat-list-item class="sidenav">
+  <mat-card-header>
+    <mat-card-title>{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-selection-list #shoes (selectionChange)="selectChange($event)">
+      <mat-list-option *ngFor="let shoe of config.list" selected="true" [value]="shoe.title">
+        <mat-icon mat-list-icon>{{shoe.icon}}</mat-icon>
+        {{shoe.title}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button [color]="selectAll?'primary':''" (click)="setSelectAll(shoes)">全选</button>
+    <!-- <button mat-flat-button>Test</button> -->
+  </mat-card-actions>
+</mat-card>
