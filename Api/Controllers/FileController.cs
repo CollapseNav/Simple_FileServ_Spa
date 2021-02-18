@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Api.Common;
+using Api.Dto;
 using Api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Api.Controller
 {
     [Route("api/[controller]")]
-    public class FileController : BaseController<Model.File>
+    public class FileController : BaseController<Model.File, GetFileDto>
     {
         private readonly DirController _dir;
         private readonly FileTypeController _fileType;
@@ -27,13 +28,13 @@ namespace Api.Controller
         /// </summary>
         [DisableRequestSizeLimit]
         [HttpPost, Route("{dirId}")]
-        public async Task<Model.File> PostFile(Guid dirId)
+        public async Task<Model.File> PostFileAsync(Guid dirId)
         {
             var file = HttpContext.Request.Form.Files[0];
-            return await SaveFile(dirId, file);
+            return await SaveFileAsync(dirId, file);
         }
 
-        private async Task<Model.File> SaveFile(Guid dirId, IFormFile file)
+        private async Task<Model.File> SaveFileAsync(Guid dirId, IFormFile file)
         {
             var dir = await _dir.FindAsync(dirId);
             var model = new Model.File { MapPath = dir.MapPath, ParentId = dirId }.Init(file);
@@ -81,7 +82,7 @@ namespace Api.Controller
         /// 根据文件Id获取文件
         /// </summary>
         [HttpGet, Route("download/{id}")]
-        public async Task<IActionResult> GetFile(Guid? id)
+        public async Task<IActionResult> GetFileAsync(Guid? id)
         {
             var range = Request.Headers["Range"].ToString();
             if (range.Length > 5)

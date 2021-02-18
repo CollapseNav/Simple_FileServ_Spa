@@ -116,8 +116,13 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("../swagger/file/swagger.json", "FileService API");
+            });
+
             app.UseCors();
-            app.UseSpaStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -125,6 +130,7 @@ namespace Api
                 RequestPath = new PathString(FileConfig.ServeMapPath),
                 ServeUnknownFileTypes = FileConfig.UseUnknowFiles,
             });
+
 
             if (FileConfig.UseDirectoryBrowser)
             {
@@ -134,12 +140,6 @@ namespace Api
                     RequestPath = new PathString(FileConfig.ServeMapPath),
                 });
             }
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("../swagger/file/swagger.json", "FileService API");
-            });
-
             app.UseRouting();
 
             // app.UseAuthentication;
@@ -149,10 +149,15 @@ namespace Api
             {
                 endpoints.MapControllers();
             });
-            app.UseSpa(spa =>
+
+            if (Configuration.GetSection("spa").Get<bool>())
             {
-                spa.Options.SourcePath = "./";
-            });
+                app.UseSpaStaticFiles();
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "./";
+                });
+            }
         }
     }
 }

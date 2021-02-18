@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Common;
+using Api.Dto;
 using Api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +12,13 @@ using Microsoft.Extensions.Logging;
 namespace Api.Controller
 {
     [Route("api/[controller]")]
-    public class BaseController<T> : ControllerBase where T : BaseEntity
+    public class BaseController<T, GetDto> : ControllerBase where T : BaseEntity where GetDto : GetBaseDto
     {
         protected readonly FileServConfig _config;
         protected readonly FileDbContext _context;
         protected readonly ILogger _log;
         protected readonly DbSet<T> _db;
-        public BaseController(ILogger<BaseController<T>> logger, FileServConfig config, FileDbContext dbContext)
+        public BaseController(ILogger<BaseController<T, GetDto>> logger, FileServConfig config, FileDbContext dbContext)
         {
             _log = logger;
             _config = config;
@@ -29,11 +31,17 @@ namespace Api.Controller
             return await _context.SaveChangesAsync();
         }
 
-        protected virtual IQueryable<T> GetQuery(T input)
+        protected virtual IQueryable<T> GetQuery(GetDto input)
         {
             return _db
                 .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
-                .WhereIf(input.AddTime.HasValue, item => item.AddTime.HasValue || (item.AddTime.Value.Date == input.AddTime.Value.Date));
+                ;
+        }
+
+        [HttpGet]
+        public virtual async Task<List<T>> GetListAsync(GetDto input)
+        {
+            return await GetQuery(input).ToListAsync();
         }
 
 

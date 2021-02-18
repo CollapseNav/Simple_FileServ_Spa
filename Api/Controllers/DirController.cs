@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Common;
+using Api.Dto;
 using Api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Api.Controller
 {
     [Route("api/[controller]")]
-    public class DirController : BaseController<Dir>
+    public class DirController : BaseController<Dir, GetDirDto>
     {
         private readonly FileTypeController _fileType;
         public DirController(ILogger<DirController> logger, FileServConfig config, FileDbContext dbContext, FileTypeController fileTypeController) : base(logger, config, dbContext)
@@ -20,7 +21,7 @@ namespace Api.Controller
             _fileType = fileTypeController;
         }
 
-        protected override IQueryable<Dir> GetQuery(Dir input)
+        protected override IQueryable<Dir> GetQuery(GetDirDto input)
         {
             return _db
             .Include(item => item.Dirs)
@@ -50,7 +51,7 @@ namespace Api.Controller
         }
 
         [HttpGet, Route("GetRootDir")]
-        public async Task<Dir> GetRootDir()
+        public async Task<Dir> GetRootDirAsync()
         {
             var query = _db.Where(item => item.MapPath == string.Empty);
             if (query.Any())
@@ -59,7 +60,7 @@ namespace Api.Controller
         }
 
         [HttpGet, Route("GetDirTree")]
-        public async Task<Dir> GetDirTree(Guid? id)
+        public async Task<Dir> GetDirTreeAsync(Guid? id)
         {
             var dir = await _db.Where(item => item.Id == id).Include(item => item.FileType).Include(item => item.Dirs).Include(item => item.Files).FirstOrDefaultAsync();
             return dir;
@@ -68,7 +69,7 @@ namespace Api.Controller
 
         public override async Task<Dir> FindAsync(Guid? id)
         {
-            return await GetQuery(new Dir { Id = id }).FirstOrDefaultAsync();
+            return await GetQuery(new GetDirDto { Id = id }).FirstOrDefaultAsync();
         }
 
         public override async Task DeleteAsync(Guid? id)
