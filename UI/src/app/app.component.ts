@@ -1,14 +1,14 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Platform } from '@angular/cdk/platform';
-import { Component, OnInit } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer, MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { environment } from 'src/environments/environment';
-import { TableApi } from './api/tableApi';
+import { FileTypeApi, TableApi } from './api/tableApi';
 import { CurrentpageService } from './services/currentpage.service';
 import { TypeService } from './services/type.service';
 import { BaseFile } from './table/table/fileinfo';
-import { ButtonStyle, ColumnBtnEvent, TableColumn, TableConfig } from './table/table/tablecolumn';
-import { SelConfig } from './typesel/selconfig';
+import { ButtonStyle, ColumnBtnEvent, TableConfig } from './table/table/tablecolumn';
+import { FileType, SelConfig } from './typesel/selconfig';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,10 @@ import { SelConfig } from './typesel/selconfig';
 export class AppComponent implements OnInit {
   title = 'UI';
   selconfig!: SelConfig;
-
   isHandSet: boolean = false;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
+  sideMode: MatDrawerMode = 'side';
 
   tc: TableConfig<BaseFile> = {
     downloadUrl: `${environment.BaseUrl}${TableApi.downloadFile}`,
@@ -45,19 +47,29 @@ export class AppComponent implements OnInit {
       },
     ]
   };
-  constructor(public typeServ: TypeService, public breakobs: BreakpointObserver, public cur: CurrentpageService) {
+  constructor(public typeServ: TypeService, public breakobs: BreakpointObserver, public cur: CurrentpageService, public http: HttpClient) {
     this.breakobs.observe([Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait]).subscribe(res => {
-      this.isHandSet = !res.matches;
+      this.isHandSet = res.matches;
+      if (this.isHandSet)
+        this.sideMode = 'over';
+      else {
+        this.sideMode = 'side';
+        // this.sidenav.toggle();
+      }
     });
   }
   ngOnInit() {
-    this.selconfig = {
-      list: this.typeServ.getTypeList(),
-      count: 0,
-      selected: this.typeServ.getTypeList(),
-    };
+    this.http.get<FileType[]>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`).subscribe(res => {
+      this.selconfig = {
+        list: res,
+        count: 0,
+        selected: res
+      };
+      // console.log(this.sidenav);
+      if (!this.isHandSet) this.sidenav.toggle();
+    });
   }
-  toggleEmit(item: MatSidenav, status: boolean) {
+  toggleEmit(item: MatDrawer, status: boolean) {
     switch (status) {
       case undefined: { item.toggle(); break; }
       case true: { if (item.opened) item.toggle(); break; }

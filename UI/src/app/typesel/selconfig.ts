@@ -4,8 +4,15 @@ export interface SelItemConfig {
 }
 
 export interface SelConfig {
-  list: SelItemConfig[];
+  list: FileType[];
   count: number;
-  selected: SelItemConfig[];
+  selected: FileType[];
 
+}
+
+export interface FileType {
+  id: string;
+  name: string;
+  ext: string;
+  icon: string;
 }

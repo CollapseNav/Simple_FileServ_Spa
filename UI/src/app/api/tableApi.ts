@@ -4,3 +4,7 @@ export const TableApi = {
   defaultFile: "/api/File",
   defaultDir: "/api/Dir",
 };
+
+export const FileTypeApi = {
+  defaultFileType: '/api/FileType'
+};

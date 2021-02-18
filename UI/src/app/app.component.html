@@ -1,7 +1,7 @@
-<app-toolbar (collapse)="toggleEmit(snav,$event)"></app-toolbar>
-
-<mat-sidenav-container>
-  <mat-sidenav #snav [fixedInViewport]="true" [mode]="'side'" fixedTopGap="64" [opened]="isHandSet">
+<app-toolbar (collapse)="toggleEmit(sidenav,$event)"></app-toolbar>
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav #sidenav [fixedInViewport]="true" [mode]="sideMode" fixedTopGap="64" fixedBottomGap="0"
+    fixedInViewport="false">
     <mat-nav-list>
       <app-typesel [title]="'文件类型'" [config]="selconfig">
       </app-typesel>

@@ -32,7 +32,8 @@ export class UploadComponent implements OnInit {
 
   uploadAll() {
     this.uploadFiles.forEach(item => {
-      this.uploadFile(item.index);
+      if (item.per != 100)
+        this.uploadFile(item.index);
     });
   }
 
@@ -47,5 +48,14 @@ export class UploadComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  uploadStatus(file: UploadFile): string {
+    if (file.loaded) {
+      return file.per < 100
+        ? `${this.cur.resize(file.loaded)}/${this.cur.resize(file.file.size)}(${file.per.toFixed(2)}%)`
+        : `${this.cur.resize(file.file.size)} (100%已完成)`;
+    }
+    return `${this.cur.resize(file.file.size)} (未上传)`;
   }
 }
