@@ -11,8 +11,8 @@ export interface SelConfig {
 }
 
 export interface FileType {
-  id: string;
-  name: string;
-  ext: string;
-  icon: string;
+  id?: string;
+  name?: string;
+  ext?: string;
+  icon?: string;
 }

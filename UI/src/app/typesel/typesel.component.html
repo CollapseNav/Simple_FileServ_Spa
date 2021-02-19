@@ -13,7 +13,8 @@
     </mat-selection-list>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button [color]="'primary'" style="margin-right: 5px;" [matTooltip]="'添加新类型'">
+    <button mat-raised-button [color]="'primary'" style="margin-right: 5px;" [matTooltip]="'添加新类型'"
+      (click)="openNewType()">
       <mat-icon>add</mat-icon>
       新类型
     </button>

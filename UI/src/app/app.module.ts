@@ -58,6 +58,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewdirComponent } from './toolbar/newdir/newdir.component';
 import { UploadComponent } from './toolbar/upload/upload.component';
 import { TablebuttonComponent } from './table/tablebutton/tablebutton.component';
+import { NewtypeComponent } from './typesel/newtype/newtype.component';
 const AllMaterialModules = [
   A11yModule,
   ClipboardModule,
@@ -116,6 +117,7 @@ const AllMaterialModules = [
     NewdirComponent,
     UploadComponent,
     TablebuttonComponent,
+    NewtypeComponent,
   ],
   imports: [
     BrowserModule,

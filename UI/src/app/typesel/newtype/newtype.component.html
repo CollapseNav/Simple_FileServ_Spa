@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>添加新类型</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>类型名称</mat-label>
+    <input matInput [(ngModel)]="typeName">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>类型图标</mat-label>
+    <input matInput [(ngModel)]="typeIcon">
+    <mat-icon matSuffix>{{typeIcon}} </mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>后缀</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let ext of exts" [selectable]="true" [removable]="true" (removed)="remove(ext)">
+        {{ext}}
+        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="New fruit..." [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="action">
+  <button mat-raised-button (click)="close()">取消</button>
+  <button #yes mat-raised-button [color]="'accent'" (click)="addNewType()">确定</button>
+</div>

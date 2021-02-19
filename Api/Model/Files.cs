@@ -1,12 +1,7 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Api.Controller;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Model
 {

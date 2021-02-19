@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { SelConfig } from './selconfig';
+import { NewtypeComponent } from './newtype/newtype.component';
+import { FileType, SelConfig } from './selconfig';
 
 @Component({
   selector: 'app-typesel',
@@ -12,6 +14,8 @@ export class TypeselComponent implements OnInit {
   @Input() title: string = 'Title';
   @Output() sel = new EventEmitter<any>();
   @Input() config!: SelConfig;
+
+  constructor(public dialog: MatDialog,) { }
 
 
   ngOnInit() { }
@@ -27,5 +31,12 @@ export class TypeselComponent implements OnInit {
   }
   getSelectedValues(selectedList: MatSelectionList): string[] | number[] {
     return selectedList.selectedOptions.selected.map(item => item.value);
+  }
+
+  openNewType() {
+    const newdia = this.dialog.open(NewtypeComponent, { maxWidth: 350 });
+    newdia.afterClosed().subscribe((res: FileType) => {
+      this.config.list.push(res);
+    });
   }
 }
