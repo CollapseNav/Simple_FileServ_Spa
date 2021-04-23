@@ -6,13 +6,15 @@ export interface SelItemConfig {
 export interface SelConfig {
   list: FileType[];
   count: number;
-  selected: FileType[];
-
 }
 
-export interface FileType {
+export interface FileType extends SelectItem {
   id?: string;
   name?: string;
   ext?: string;
   icon?: string;
+}
+
+export interface SelectItem {
+  selected?: boolean;
 }

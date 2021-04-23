@@ -27,7 +27,6 @@ export class TablebuttonComponent<T extends BaseFile> implements OnInit {
     return this.btn.getUrl ? this.btn.getUrl(this.item) : this.btn.url;
   }
 
-
   click() {
     if (this.btn.type) {
       switch (this.btn.type) {

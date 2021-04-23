@@ -13,18 +13,16 @@ namespace Api.Controller
     public class FileTypeController : BaseController<FileType, GetFileTypeDto>
     {
         public FileTypeController(ILogger<FileTypeController> logger, FileServConfig config, FileDbContext dbContext) : base(logger, config, dbContext)
-        {
-        }
+        { }
 
         protected override IQueryable<FileType> GetQuery(GetFileTypeDto input)
         {
             return _db
-            .WhereIf(string.IsNullOrEmpty(input.Ext), item => item.Ext == string.Empty)
             .WhereIf(input.Ext, item => item.Ext.Contains(input.Ext))
             ;
         }
 
-        [HttpGet, Route("GetTypeId")]
+        [HttpGet, Route("ByExt")]
         public async Task<FileType> GetTypeByExtAsync(string ext)
         {
             var query = GetQuery(new GetFileTypeDto { Ext = ext });

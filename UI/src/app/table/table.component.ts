@@ -8,7 +8,6 @@ import { CurrentpageService } from '../services/currentpage.service';
 import { BaseFile, Dir, SizeType } from './table/fileinfo';
 import { ButtonStyle, TableColumn, TableConfig } from './table/tablecolumn';
 
-
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',

@@ -1,11 +1,7 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CurrentpageService } from '../services/currentpage.service';
-import { TableComponent } from '../table/table.component';
 import { NewdirComponent } from './newdir/newdir.component';
-import { UploadService } from '../services/upload.service';
 import { UploadComponent } from './upload/upload.component';
 
 @Component({

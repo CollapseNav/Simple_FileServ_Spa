@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,6 +22,11 @@ namespace Api.Controller
         {
             _dir = dir;
             _fileType = fileTypeController;
+        }
+        protected override IQueryable<Model.File> GetQuery(GetFileDto input)
+        {
+            return base.GetQuery(input)
+            ;
         }
 
         /// <summary>

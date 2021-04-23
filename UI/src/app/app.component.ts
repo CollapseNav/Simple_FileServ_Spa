@@ -5,7 +5,6 @@ import { MatDrawer, MatDrawerMode, MatSidenav } from '@angular/material/sidenav'
 import { environment } from 'src/environments/environment';
 import { FileTypeApi, TableApi } from './api/tableApi';
 import { CurrentpageService } from './services/currentpage.service';
-import { TypeService } from './services/type.service';
 import { BaseFile } from './table/table/fileinfo';
 import { ButtonStyle, ColumnBtnEvent, TableConfig } from './table/table/tablecolumn';
 import { FileType, SelConfig } from './typesel/selconfig';
@@ -18,13 +17,21 @@ import { FileType, SelConfig } from './typesel/selconfig';
 export class AppComponent implements OnInit {
   title = 'UI';
   selconfig!: SelConfig;
-  isHandSet: boolean = false;
+  isHandSet: boolean = true;
   @ViewChild('sidenav') sidenav: MatSidenav;
+
+  isXsmall: boolean;
+  isNavOpen: boolean = false;
+  navClass: string = 'nav-container-main';
+
+  // navClass(): string {
+  //   return this.navClass = this.isXsmall ? 'nav-container-min' : 'nav-container-main';
+  // }
+
 
   sideMode: MatDrawerMode = 'side';
 
   tc: TableConfig<BaseFile> = {
-    downloadUrl: `${environment.BaseUrl}${TableApi.downloadFile}`,
     columns: [
       { label: 'Name', valIndex: 'fileName', sort: true, format: item => item.fileName },
       { label: 'CreateTime', valIndex: 'addTime', sort: true, format: item => new Date(item.addTime).toLocaleDateString() },
@@ -35,7 +42,9 @@ export class AppComponent implements OnInit {
         buttons: [
           {
             content: '下载', style: ButtonStyle.link,
-            getUrl: item => this.tc.downloadUrl + '/' + item.id,
+            getUrl: item => {
+              return `${environment.BaseUrl}${TableApi.downloadFile}` + '/' + item.id;
+            },
             isHidden: item => item.ext,
           },
           {
@@ -47,26 +56,44 @@ export class AppComponent implements OnInit {
       },
     ]
   };
-  constructor(public typeServ: TypeService, public breakobs: BreakpointObserver, public cur: CurrentpageService, public http: HttpClient) {
-    this.breakobs.observe([Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait]).subscribe(res => {
-      this.isHandSet = res.matches;
-      if (this.isHandSet)
-        this.sideMode = 'over';
-      else {
-        this.sideMode = 'side';
-        // this.sidenav.toggle();
-      }
+  constructor(public breakobs: BreakpointObserver, public cur: CurrentpageService, public http: HttpClient) {
+    // 保持nav关闭状态
+    this.breakobs.observe([Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait, Breakpoints.XSmall]).subscribe(res => {
+      if (!res.matches) return;
+      if (!this.sidenav) return;
+      this.keepNavClose();
     });
+    // 修改到顶部的距离
+    this.breakobs.observe([Breakpoints.XSmall]).subscribe(res => {
+      this.isXsmall = res.matches;
+    });
+    // 保持nav开启状态
+    this.breakobs.observe([Breakpoints.Web, Breakpoints.TabletLandscape, Breakpoints.WebLandscape]).subscribe(res => {
+      if (!res.matches) return;
+      if (!this.sidenav) return;
+      this.keepNavOpen();
+    });
+  }
+
+  keepNavClose() {
+    this.sideMode = 'over';
+    if (this.sidenav.opened)
+      this.sidenav.toggle();
+  }
+
+  keepNavOpen() {
+    this.sideMode = 'side';
+    if (!this.sidenav.opened)
+      this.sidenav.toggle();
+
   }
   ngOnInit() {
     this.http.get<FileType[]>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`).subscribe(res => {
+      res.forEach(item => item.selected = true);
       this.selconfig = {
         list: res,
         count: 0,
-        selected: res
       };
-      // console.log(this.sidenav);
-      if (!this.isHandSet) this.sidenav.toggle();
     });
   }
   toggleEmit(item: MatDrawer, status: boolean) {

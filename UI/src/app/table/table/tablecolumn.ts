@@ -1,6 +1,5 @@
 export interface TableConfig<T> {
   url?: string;
-  downloadUrl?: string;
   columns: TableColumn<T>[];
 }
 export interface TableColumn<T> {

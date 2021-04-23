@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NewdirComponent } from 'src/app/toolbar/newdir/newdir.component';
 import { environment } from 'src/environments/environment';
 import { FileTypeApi } from 'src/app/api/tableApi';
 import { MatIcon, MatIconLocation, MatIconRegistry } from '@angular/material/icon';
+import { MatIconHarness } from '@angular/material/icon/testing';
 import { FileType } from '../selconfig';
 
 @Component({
@@ -19,42 +20,54 @@ export class NewtypeComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   typeName: string;
   typeIcon: string;
-  constructor(public dialogRef: MatDialogRef<NewdirComponent>,
-    public http: HttpClient) { }
+
+  fileType: FileType = {};
+  constructor(@Inject(MAT_DIALOG_DATA) public id: string, public dialogRef: MatDialogRef<NewdirComponent>,
+    public IconReg: MatIconRegistry, public http: HttpClient) { }
+
+
   ngOnInit(): void {
+    if (this.id) {
+      this.http.get<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}/${this.id}`).subscribe(res => {
+        this.fileType = res;
+        this.exts = this.spliteExts(this.fileType.ext);
+      });
+    }
   }
   close() {
     this.dialogRef.close();
   }
+
+  spliteExts(ext: string): string[] {
+    if (!ext) return [];
+    return ext.split(',');
+  }
+
+  /** 添加新的文件类型 */
+  addNewType() {
+    this.fileType.ext = this.exts.join(',');
+    this.http.post<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`, this.fileType).subscribe(res => {
+      this.dialogRef.close(res);
+    });
+  }
+
+  /** 添加文件后缀 */
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
     if ((value || '').trim()) {
       if (this.exts.indexOf(value) > -1)
         this.exts.splice(this.exts.indexOf(value), 1);
       this.exts.push(value);
     }
-    if (input) {
+    if (input)
       input.value = '';
-    }
   }
 
-  addNewType() {
-    let type: FileType = {
-      ext: this.exts.join(','),
-      name: this.typeName,
-      icon: this.typeIcon
-    };
-
-    this.http.post<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`, type).subscribe(res => {
-      this.dialogRef.close(res);
-    });
-  }
-
+  /** 移除文件后缀 */
   remove(item: string): void {
+    console.log(this.fileType);
     const index = this.exts.indexOf(item);
-
     if (index >= 0) {
       this.exts.splice(index, 1);
     }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, of } from 'rxjs';
 import { BaseFile, Dir, MFile, SizeType } from '../table/table/fileinfo';
 
 @Injectable({

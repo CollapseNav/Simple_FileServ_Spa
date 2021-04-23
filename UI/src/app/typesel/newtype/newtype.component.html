@@ -2,12 +2,12 @@
 <div mat-dialog-content>
   <mat-form-field>
     <mat-label>类型名称</mat-label>
-    <input matInput [(ngModel)]="typeName">
+    <input matInput [(ngModel)]="fileType.name">
   </mat-form-field>
   <mat-form-field>
     <mat-label>类型图标</mat-label>
-    <input matInput [(ngModel)]="typeIcon">
-    <mat-icon matSuffix>{{typeIcon}} </mat-icon>
+    <input matInput [(ngModel)]="fileType.icon">
+    <mat-icon matSuffix #icon>{{fileType.icon}} </mat-icon>
   </mat-form-field>
   <mat-form-field>
     <mat-label>后缀</mat-label>

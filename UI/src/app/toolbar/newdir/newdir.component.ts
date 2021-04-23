@@ -25,9 +25,7 @@ export class NewdirComponent implements OnInit {
   onEnter(data: string): void {
     this.addNewDir(data);
   }
-
   addNewDir(data: string): void {
-
     this.http.post<Dir>(`${environment.BaseUrl}${TableApi.defaultDir}`, { fileName: data, parentId: this.cur.getCurrentPage().id, mapPath: this.cur.getCurrentPage().mapPath }).subscribe(res => {
       this.cur.addNewDirCur(res);
       this.close();
