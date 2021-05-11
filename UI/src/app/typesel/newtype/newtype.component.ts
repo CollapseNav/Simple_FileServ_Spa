@@ -6,8 +6,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NewdirComponent } from 'src/app/toolbar/newdir/newdir.component';
 import { environment } from 'src/environments/environment';
 import { FileTypeApi } from 'src/app/api/tableApi';
-import { MatIcon, MatIconLocation, MatIconRegistry } from '@angular/material/icon';
-import { MatIconHarness } from '@angular/material/icon/testing';
+import { MatIconRegistry } from '@angular/material/icon';
 import { FileType } from '../selconfig';
 
 @Component({
@@ -25,7 +24,6 @@ export class NewtypeComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public id: string, public dialogRef: MatDialogRef<NewdirComponent>,
     public IconReg: MatIconRegistry, public http: HttpClient) { }
 
-
   ngOnInit(): void {
     if (this.id) {
       this.http.get<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}/${this.id}`).subscribe(res => {
@@ -34,6 +32,7 @@ export class NewtypeComponent implements OnInit {
       });
     }
   }
+
   close() {
     this.dialogRef.close();
   }
@@ -46,9 +45,15 @@ export class NewtypeComponent implements OnInit {
   /** 添加新的文件类型 */
   addNewType() {
     this.fileType.ext = this.exts.join(',');
-    this.http.post<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`, this.fileType).subscribe(res => {
-      this.dialogRef.close(res);
-    });
+    if (this.id) {
+      this.http.put(`${environment.BaseUrl}${FileTypeApi.defaultFileType}/${this.id}`, this.fileType).subscribe(res => {
+        this.dialogRef.close(this.fileType);
+      });
+    } else {
+      this.http.post<FileType>(`${environment.BaseUrl}${FileTypeApi.defaultFileType}`, this.fileType).subscribe(res => {
+        this.dialogRef.close(res);
+      });
+    }
   }
 
   /** 添加文件后缀 */

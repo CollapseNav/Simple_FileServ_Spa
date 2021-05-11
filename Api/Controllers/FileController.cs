@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,7 @@ using Api.Dto;
 using Api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Api.Controller
@@ -121,6 +124,13 @@ namespace Api.Controller
             }
             catch { }
             await SaveChangesAsync();
+        }
+
+        [HttpGet, Route("ByName")]
+        public async Task<ICollection<Model.File>> FindFileByNameAsync([FromQuery] string name)
+        {
+            var files = await _db.Where(item => item.FileName.Contains(name ?? "")).Take(10).ToListAsync();
+            return files;
         }
     }
 }

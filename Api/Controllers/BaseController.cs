@@ -65,5 +65,13 @@ namespace Api.Controller
             _db.Remove(await FindAsync(id));
             await SaveChangesAsync();
         }
+        [HttpPut, Route("{id}")]
+        public virtual async Task UpdateAsync(Guid? id, [FromBody] T entity)
+        {
+            entity.Id = id;
+            var entry = _context.Entry<T>(entity);
+            entry.State = EntityState.Modified;
+            await SaveChangesAsync();
+        }
     }
 }

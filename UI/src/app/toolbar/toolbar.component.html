@@ -4,6 +4,21 @@
   </button>
   <span *ngIf="!isHandset">Simple FileService</span>
   <span class="spacer"></span>
+  <span style="width: 100%;">
+    <div class="example-form">
+      <mat-form-field appearance="legacy" class="example-full-width">
+        <input matInput [(ngModel)]="filename" name="filename" class="example-full-width" [matAutocomplete]="auto"
+          #filenameInput>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let file of files" [value]="file.fileName">
+            {{file.fileName}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </span>
+  <span class="spacer"></span>
   <button mat-icon-button (click)="addNewFiles()" [matTooltip]="'上传文件'">
     <mat-icon>post_add</mat-icon>
   </button>

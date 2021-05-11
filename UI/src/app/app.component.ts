@@ -17,11 +17,11 @@ import { FileType, SelConfig } from './typesel/selconfig';
 export class AppComponent implements OnInit {
   title = 'UI';
   selconfig!: SelConfig;
-  isHandSet: boolean = true;
+  isHandSet: boolean = false;
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   isXsmall: boolean;
-  isNavOpen: boolean = false;
+  isNavOpen: boolean;
   navClass: string = 'nav-container-main';
 
   // navClass(): string {
@@ -62,6 +62,7 @@ export class AppComponent implements OnInit {
       if (!res.matches) return;
       if (!this.sidenav) return;
       this.keepNavClose();
+      this.isHandSet = true;
     });
     // 修改到顶部的距离
     this.breakobs.observe([Breakpoints.XSmall]).subscribe(res => {
@@ -72,6 +73,7 @@ export class AppComponent implements OnInit {
       if (!res.matches) return;
       if (!this.sidenav) return;
       this.keepNavOpen();
+      this.isHandSet = false;
     });
   }
 

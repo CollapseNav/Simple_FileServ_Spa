@@ -48,7 +48,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { TypeselComponent } from './typesel/typesel.component';
@@ -59,6 +59,7 @@ import { NewdirComponent } from './toolbar/newdir/newdir.component';
 import { UploadComponent } from './toolbar/upload/upload.component';
 import { TablebuttonComponent } from './table/tablebutton/tablebutton.component';
 import { NewtypeComponent } from './typesel/newtype/newtype.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 const AllMaterialModules = [
   A11yModule,
   ClipboardModule,
@@ -128,7 +129,9 @@ const AllMaterialModules = [
     ...AllMaterialModules,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
