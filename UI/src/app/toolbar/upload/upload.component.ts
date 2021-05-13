@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CurrentpageService } from 'src/app/services/currentpage.service';
 import { UploadFile, UploadService } from 'src/app/services/upload.service';
+import { ConvertSize } from 'src/app/table/table/fileinfo';
 
 @Component({
   selector: 'app-upload',
@@ -53,9 +54,9 @@ export class UploadComponent implements OnInit {
   uploadStatus(file: UploadFile): string {
     if (file.loaded) {
       return file.per < 100
-        ? `${this.cur.resize(file.loaded)}/${this.cur.resize(file.file.size)}(${file.per.toFixed(2)}%)`
-        : `${this.cur.resize(file.file.size)} (100%已完成)`;
+        ? `${ConvertSize(file.loaded)}/${ConvertSize(file.file.size)}(${file.per.toFixed(2)}%)`
+        : `${ConvertSize(file.file.size)} (100%已完成)`;
     }
-    return `${this.cur.resize(file.file.size)} (未上传)`;
+    return `${ConvertSize(file.file.size)} (未上传)`;
   }
 }
