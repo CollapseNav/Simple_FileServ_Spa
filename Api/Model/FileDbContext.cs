@@ -29,11 +29,10 @@ namespace Api.Model
                 });
                 try
                 {
-                    Directory.CreateDirectory(_config.FullPath);
+                    Directory.CreateDirectory(_config.FileStore + _config.FullPath);
+                    Console.WriteLine(_config.FileStore + _config.FullPath);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             base.OnModelCreating(builder);
         }

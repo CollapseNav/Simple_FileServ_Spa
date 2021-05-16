@@ -45,8 +45,9 @@ namespace Api.Controller
 
         private async Task<Model.File> SaveFileAsync(Guid dirId, IFormFile file)
         {
-            var dir = await _dir.FindAsync(dirId);
-            var model = new Model.File { MapPath = dir.MapPath, ParentId = dirId }.Init(file);
+            var model = new Model.File();
+            model.SetParent(await _dir.FindAsync(dirId));
+            model.Init(file, await _fileType.GetListAsync(new GetFileTypeDto { }));
             var fullFilePath = _config.FileStore + _config.FullPath + model.MapPath;
 
             if (!model.TypeId.HasValue)

@@ -18,7 +18,7 @@ export interface TableColumnButton<T> {
   type?: ColumnBtnEvent;
   icon?: string;
   hidden?: boolean;
-  isHidden?: (item: T) => any;
+  isHidden?: (item: T) => false | boolean;
   disabled?: boolean;
   isDisabled?: (item: T) => any;
   url?: string;
@@ -32,7 +32,7 @@ export interface TableColumnButton<T> {
 }
 
 export enum ColumnBtnEvent {
-  add, del, download, edit
+  add, del, download, edit, action
 }
 
 

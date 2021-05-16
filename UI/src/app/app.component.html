@@ -1,5 +1,5 @@
 <div *ngIf="sidenavConfig">
-  <app-toolbar [isHandset]="sidenavConfig.IsHandSet" (collapse)="toggleEmit(sidenav,$event)"></app-toolbar>
+  <app-toolbar [navConfig]="sidenavConfig" (collapse)="toggleEmit(sidenav,$event)"></app-toolbar>
   <mat-sidenav-container class="nav-container-main">
     <mat-sidenav #sidenav [fixedInViewport]="true" [mode]="sidenavConfig.SideModel" [opened]="sidenavConfig.IsHandSet"
       [fixedTopGap]="sidenavConfig.IsXsmall?56:64" fixedBottomGap="0" fixedInViewport="false">

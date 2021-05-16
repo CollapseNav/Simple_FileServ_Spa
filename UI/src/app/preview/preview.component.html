@@ -1,0 +1,24 @@
+<div cdkDragRootElement=".cdk-overlay-pane" cdkDrag>
+  <div mat-dialog-title>
+    <div class="preview-dialog-header">
+      <span>{{file.fileName}}</span>
+      <span>
+        <button mat-icon-button (click)="play()">
+          <mat-icon>{{paused?'play_arrow':'pause'}}</mat-icon>
+        </button>
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div mat-dialog-content>
+    <video controls #videoPlay>
+      <source [src]="downloadUrl+file.id" [type]="file.contentType">
+    </video>
+  </div>
+</div>
+<!-- <div mat-dialog-actions class="action">
+  <button mat-raised-button>取消</button>
+  <button #yes mat-raised-button [color]="'accent'">确定</button>
+</div> -->

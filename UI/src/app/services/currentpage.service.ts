@@ -7,8 +7,6 @@ import { BaseFile, Dir, MFile, SizeType } from '../table/table/fileinfo';
 })
 export class CurrentpageService {
   dataSource: MatTableDataSource<BaseFile> = new MatTableDataSource([]);
-  private dirs: Dir[];
-  private files: MFile[];
   private tablePage: Dir[] = [];
   constructor() { }
 
@@ -22,6 +20,16 @@ export class CurrentpageService {
     return this.tablePage;
   }
 
+  /** 获取目录 路径(string) */
+  getPageRouteString(): string {
+    return this.tablePage.map(item => item.fileName).join('/');
+  }
+
+  /** 获取目录 路径(array) */
+  getPageRouteStringArray(): string[] {
+    return this.tablePage.map(item => item.fileName);
+  }
+
   /** 获取当前页 */
   getCurrentPage(): Dir {
     return this.tablePage[this.tablePage.length - 1];
@@ -29,15 +37,8 @@ export class CurrentpageService {
 
   add(page: Dir): Dir[] {
     this.tablePage.push(page);
-    // this.initDirAndFile(page);
     this.initCurrentPage();
     return this.tablePage;
-  }
-
-  /** 初始化 当前文件 */
-  initDirAndFile(page: Dir) {
-    this.dirs = page.dirs;
-    this.files = page.files;
   }
 
   /** 添加新的文件夹 */
@@ -58,6 +59,7 @@ export class CurrentpageService {
     this.getCurrentPage().files.push(file);
     this.initCurrentPage();
   }
+
   /** 移除文件 */
   removeFile(file: BaseFile) {
     var index = this.getCurrentPage().files.findIndex(item => item.id === file.id);

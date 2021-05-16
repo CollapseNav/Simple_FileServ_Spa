@@ -60,6 +60,7 @@ import { UploadComponent } from './toolbar/upload/upload.component';
 import { TablebuttonComponent } from './table/tablebutton/tablebutton.component';
 import { NewtypeComponent } from './typesel/newtype/newtype.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { PreviewComponent } from './preview/preview.component';
 const AllMaterialModules = [
   A11yModule,
   ClipboardModule,
@@ -119,6 +120,7 @@ const AllMaterialModules = [
     UploadComponent,
     TablebuttonComponent,
     NewtypeComponent,
+    PreviewComponent,
   ],
   imports: [
     BrowserModule,

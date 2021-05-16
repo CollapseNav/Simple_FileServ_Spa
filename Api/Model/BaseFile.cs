@@ -9,6 +9,7 @@ namespace Api.Model
         [MaxLength(100)]
         public string FileName { get; set; }
         public virtual string MapPath { get; set; }
+        public virtual string TruePath { get; set; }
         [MaxLength(20)]
         public string Sys { get; set; }
         [MaxLength(50)]
@@ -20,5 +21,10 @@ namespace Api.Model
         public bool IsVisible { get; set; } = true;
         [MaxLength(20)]
         public string Ext { get; set; }
+        public void SetParent(BaseFile file)
+        {
+            ParentId = file.Id;
+            MapPath = file.MapPath;
+        }
     }
 }

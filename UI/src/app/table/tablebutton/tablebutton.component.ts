@@ -33,9 +33,11 @@ export class TablebuttonComponent<T extends BaseFile> implements OnInit {
         case ColumnBtnEvent.del:
           this.http.delete(`${this.getUrl()}/${this.item.id}`).subscribe(res => {
             this.del.emit(this.item);
-            // delete this.item;
-            // this.item = null;
           });
+          break;
+        case ColumnBtnEvent.action:
+          this.btn.click(this.item);
+          break;
       }
     }
   }

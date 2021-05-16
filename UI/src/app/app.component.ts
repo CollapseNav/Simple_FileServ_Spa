@@ -1,9 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer, MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { environment } from 'src/environments/environment';
 import { FileTypeApi, TableApi } from './api/tableApi';
+import { PreviewComponent, PreviewType } from './preview/preview.component';
 import { CurrentpageService } from './services/currentpage.service';
 import { BaseFile, ConvertSize } from './table/table/fileinfo';
 import { ButtonStyle, ColumnBtnEvent, TableConfig } from './table/table/tablecolumn';
@@ -29,21 +31,13 @@ export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   sidenavConfig: NavConfig;
   isXsmall: boolean;
-  isNavOpen: boolean;
-  navClass: string = 'nav-container-main';
-
-  // navClass(): string {
-  //   return this.navClass = this.isXsmall ? 'nav-container-min' : 'nav-container-main';
-  // }
-
-
   sideMode: MatDrawerMode = 'side';
   tc: TableConfig<BaseFile> = {
     columns: [
       { label: 'Name', valIndex: 'fileName', sort: true, format: item => item.fileName },
       { label: 'CreateTime', valIndex: 'addTime', sort: true, format: item => new Date(item.addTime).toLocaleDateString() },
       { label: 'Ext', valIndex: 'ext', sort: true },
-      { label: 'Size', valIndex: 'size', sort: true, format: item => ConvertSize(Number.parseInt(item.size)) },
+      { label: 'Size', valIndex: 'size', sort: true, format: item => ConvertSize(item.size) },
       {
         label: 'Actions', valIndex: 'actions',
         buttons: [
@@ -52,12 +46,32 @@ export class AppComponent implements OnInit {
             getUrl: item => {
               return `${environment.BaseUrl}${TableApi.downloadFile}` + '/' + item.id;
             },
-            isHidden: item => item.ext,
+            isHidden: item => !!item['contentType'],
           },
           {
             content: '删除', style: ButtonStyle.raised, color: 'warn',
             type: ColumnBtnEvent.del,
             getUrl: item => `${environment.BaseUrl}${item.ext ? TableApi.defaultFile : TableApi.defaultDir}`
+          },
+          {
+            content: '预览', style: ButtonStyle.raised, color: 'primary',
+            type: ColumnBtnEvent.action,
+            isHidden: item => {
+              if (!item.ext) return false;
+              if (PreviewType[item.ext.substring(1, item.ext.length)] > -1) return true;
+              return false;
+            },
+            click: item => {
+              this.dialog.open(PreviewComponent, {
+                maxWidth: '50%',
+                minWidth: '10%',
+                disableClose: true,
+                autoFocus: false,
+                hasBackdrop: false,
+                id: item.id,
+                data: item
+              });
+            }
           }
         ],
       },
@@ -89,6 +103,7 @@ export class AppComponent implements OnInit {
   }
   constructor(public breakobs: BreakpointObserver,
     public cur: CurrentpageService,
+    public dialog: MatDialog,
     public http: HttpClient) {
     this.checkNavClose();
     this.checkNavOpen();
@@ -106,7 +121,6 @@ export class AppComponent implements OnInit {
     if (!this.sidenav.opened)
       this.sidenav.toggle();
   }
-  canTableShow = false;
   ngOnInit() {
     if (!this.sidenavConfig) {
       this.sidenavConfig = {

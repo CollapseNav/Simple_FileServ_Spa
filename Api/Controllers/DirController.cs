@@ -34,6 +34,8 @@ namespace Api.Controller
         public async override Task<Dir> AddAsync([FromBody] Dir input)
         {
             input.Init();
+            if (input.ParentId.HasValue)
+                input.MapPath = (await FindAsync(input.ParentId))?.MapPath;
             if (Directory.Exists(input.MapPath)) return null;
 
             var fullPath = _config.FileStore + _config.FullPath + input.MapPath;
@@ -45,7 +47,6 @@ namespace Api.Controller
             Directory.CreateDirectory(fullPath);
 
             await SaveChangesAsync();
-
             return input;
         }
 
