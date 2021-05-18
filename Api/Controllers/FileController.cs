@@ -49,6 +49,9 @@ namespace Api.Controller
             model.SetParent(await _dir.FindAsync(dirId));
             model.Init(file, await _fileType.GetListAsync(new GetFileTypeDto { }));
             var fullFilePath = _config.FileStore + _config.FullPath + model.MapPath;
+            // TODO 文件重复处理
+            if (System.IO.File.Exists(fullFilePath))
+                return new Model.File { Id = null };
 
             if (!model.TypeId.HasValue)
             {

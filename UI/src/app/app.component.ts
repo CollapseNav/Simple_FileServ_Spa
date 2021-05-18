@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
       { label: 'CreateTime', valIndex: 'addTime', sort: true, format: item => new Date(item.addTime).toLocaleDateString() },
       { label: 'Ext', valIndex: 'ext', sort: true },
       { label: 'Size', valIndex: 'size', sort: true, format: item => ConvertSize(item.size) },
+      { label: 'ConType', valIndex: 'contentType', sort: true, maxLen: 10 },
       {
         label: 'Actions', valIndex: 'actions',
         buttons: [
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
           },
           {
             content: '预览', style: ButtonStyle.raised, color: 'primary',
+            icon: 'play_arrow',
             type: ColumnBtnEvent.action,
             isHidden: item => {
               if (!item.ext) return false;

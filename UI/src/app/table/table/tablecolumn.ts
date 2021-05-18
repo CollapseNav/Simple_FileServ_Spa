@@ -5,6 +5,7 @@ export interface TableConfig<T> {
 export interface TableColumn<T> {
   label: string;
   valIndex?: string;
+  maxLen?: number;
   format?: (item: T) => any;
   default?: any;
   sort?: boolean;

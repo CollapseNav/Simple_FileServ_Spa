@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environments/environment';
 import { TableApi } from '../api/tableApi';
+import { PreviewComponent } from '../preview/preview.component';
 import { CurrentpageService } from '../services/currentpage.service';
 import { BaseFile, Dir, SizeType } from './table/fileinfo';
 import { ButtonStyle, TableColumn, TableConfig } from './table/tablecolumn';
@@ -24,7 +26,9 @@ export class TableComponent implements OnInit {
 
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<BaseFile> = new MatTableDataSource([]);
-  constructor(public http: HttpClient, public cur: CurrentpageService) { }
+  constructor(public http: HttpClient,
+    public dialog: MatDialog,
+    public cur: CurrentpageService) { }
   ngOnInit(): void {
     this.column = this.tableConfig.columns;
     this.displayedColumns = this.column.map(item => item.valIndex);
@@ -33,10 +37,22 @@ export class TableComponent implements OnInit {
       this.resetTableData(res);
     });
   };
-  doubleClick(dir: Dir) {
-    this.http.get<Dir>(`${environment.BaseUrl}${TableApi.defaultDir}/${dir.id}`).subscribe(res => {
-      this.resetTableData(res);
-    });
+  doubleClick(dir: BaseFile) {
+    if (dir['contentType']) {
+      this.dialog.open(PreviewComponent, {
+        maxWidth: '50%',
+        minWidth: '10%',
+        disableClose: true,
+        autoFocus: false,
+        hasBackdrop: false,
+        id: dir.id,
+        data: dir
+      });
+    }
+    else
+      this.http.get<Dir>(`${environment.BaseUrl}${TableApi.defaultDir}/${dir.id}`).subscribe(res => {
+        this.resetTableData(res);
+      });
   }
 
   resetTableData(data: Dir): void {
@@ -49,7 +65,8 @@ export class TableComponent implements OnInit {
   }
 
   format(item: BaseFile, col: TableColumn<BaseFile>): string {
-    return !!col.format ? col.format(item) : item[col.valIndex];
+    let result: string = !!col.format ? col.format(item) : item[col.valIndex];
+    return col.maxLen ? (result?.length > col.maxLen ? result.substr(0, col.maxLen - 1) + '...' : result) : result;
   }
 
   delete(item: BaseFile) {

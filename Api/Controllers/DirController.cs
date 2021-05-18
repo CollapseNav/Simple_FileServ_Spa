@@ -35,10 +35,10 @@ namespace Api.Controller
         {
             input.Init();
             if (input.ParentId.HasValue)
-                input.MapPath = (await FindAsync(input.ParentId))?.MapPath;
-            if (Directory.Exists(input.MapPath)) return null;
+                input.MapPath += (await FindAsync(input.ParentId))?.MapPath;
 
             var fullPath = _config.FileStore + _config.FullPath + input.MapPath;
+            if (Directory.Exists(fullPath)) return null;
 
             if (!input.TypeId.HasValue)
                 input.TypeId = (await _fileType.GetTypeByExtAsync(input.Ext)).Id;

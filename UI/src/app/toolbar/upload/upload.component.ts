@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CurrentpageService } from 'src/app/services/currentpage.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 import { UploadFile, UploadService } from 'src/app/services/upload.service';
 import { ConvertSize } from 'src/app/table/table/fileinfo';
 
@@ -15,6 +16,7 @@ export class UploadComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<UploadComponent>,
     public uploadServ: UploadService,
+    public snack: SnackBarService,
     public cur: CurrentpageService) { }
 
   ngOnInit(): void {
@@ -25,8 +27,9 @@ export class UploadComponent implements OnInit {
   }
   uploadFile(index: number) {
     this.uploadServ.uploadFile(this.uploadFiles.filter(item => item.index == index)[0]).subscribe(res => {
-      if (res) {
+      if (!!res?.id) {
         this.cur.addNewFileCur(res);
+      } else {
       }
     });
   }

@@ -25,14 +25,22 @@ export enum SizeType {
   M = SizeType.K + 10,
   G = SizeType.M + 10,
   T = SizeType.G + 10,
+  P = SizeType.T + 10,
 }
 
-export function ConvertSize(size: number, sizeType: SizeType = SizeType.B): string {
+export function ConvertSize(size: number, sizeType: SizeType = SizeType.B) {
   if (!size) return '';
-  const levelTwoType: SizeType = sizeType + 10;
-  const result: Number = size >> levelTwoType;
-  if (result < 1) return `${size >> sizeType} ${SizeType[sizeType]}`;
-  if (result < 1024) return `${result}.${(size >> (sizeType)).toString().slice(-4, -2)} ${SizeType[levelTwoType]}`;
-  return ConvertSize(size, sizeType + 10);
+  if ((size >> sizeType) < 1024) return `${size >> sizeType}${sizeType - 10 >= 0 ? '.' + (size >> (sizeType - 10)).toString().slice(-4, -2) : ''} ${SizeType[sizeType]}`;
+  else return ConvertSize(size, sizeType + 10);
 }
-
+// export function ConvertSize(size: number) {
+//   if (!size) return '';
+//   size /= 1.0;
+//   const sizeUnits: string[] = ['B', 'K', 'M', 'G', 'T'];
+//   for (let i = 0; i < sizeUnits.length; i++) {
+//     console.log(size);
+//     if (size < 1024) return size.toFixed(2) + sizeUnits[i];
+//     size /= 1024.0;
+//   }
+//   return '';
+// }

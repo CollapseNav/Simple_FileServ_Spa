@@ -1,4 +1,4 @@
-<div cdkDragRootElement=".cdk-overlay-pane" cdkDrag>
+<div cdkDragRootElement=".cdk-overlay-pane" cdkDrag [cdkDragDisabled]="disableDrag">
   <div mat-dialog-title>
     <div class="preview-dialog-header">
       <span>{{file.fileName}}</span>
@@ -11,14 +11,30 @@
         </button>
       </span>
     </div>
+    <mat-slider [(ngModel)]="sliderValue" style="width: 100%;" tickInterval="1000" [min]="sliderMin" [max]="sliderMax"
+      [value]="sliderValue" [displayWith]="formatLabel" (input)="onTouched($event)" (change)="sliderValueChange($event)"
+      #slider></mat-slider>
   </div>
   <div mat-dialog-content>
-    <video controls #videoPlay>
-      <source [src]="downloadUrl+file.id" [type]="file.contentType">
-    </video>
+    <ng-container *ngIf=" canPreview(file.contentType);else notSupport">
+      <ng-container [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'video'">
+          <video controls #videoPlay>
+            <source [src]="downloadUrl+file.id" [type]="file.contentType">
+          </video>
+        </ng-container>
+        <ng-container *ngSwitchCase="'audio'">
+          <audio controls #audioPlay>
+            <source [src]="downloadUrl+file.id" [type]="file.contentType">
+          </audio>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <h1>暂时不支持该类型的预览</h1>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #notSupport>
+      <h1>暂时不支持该类型的预览</h1>
+    </ng-template>
   </div>
 </div>
-<!-- <div mat-dialog-actions class="action">
-  <button mat-raised-button>取消</button>
-  <button #yes mat-raised-button [color]="'accent'">确定</button>
-</div> -->
