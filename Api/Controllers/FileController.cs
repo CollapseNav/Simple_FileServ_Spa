@@ -103,7 +103,7 @@ namespace Api.Controller
             var file = await FindAsync(id);
             var filepath = _config.FileStore + _config.FullPath + "/" + file.MapPath;
             var memoryStream = new MemoryStream();
-            using var stream = new FileStream(filepath, FileMode.Open);
+            using var stream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             await stream.CopyToAsync(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
             _log.LogInformation($"Download File {file.FileName} , Id : {id.Value}");

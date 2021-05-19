@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
           {
             content: '删除', style: ButtonStyle.raised, color: 'warn',
             type: ColumnBtnEvent.del,
-            getUrl: item => `${environment.BaseUrl}${item.ext ? TableApi.defaultFile : TableApi.defaultDir}`
+            getUrl: item => `${environment.BaseUrl}${item['contentType'] ? TableApi.defaultFile : TableApi.defaultDir}`
           },
           {
             content: '预览', style: ButtonStyle.raised, color: 'primary',
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
             },
             click: item => {
               this.dialog.open(PreviewComponent, {
-                maxWidth: '50%',
+                maxWidth: '100%',
                 minWidth: '10%',
                 disableClose: true,
                 autoFocus: false,
