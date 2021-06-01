@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environments/environment';
-import { TableApi } from '../api/tableApi';
+import { TableApi } from '../api/Api';
 import { PreviewComponent } from '../preview/preview.component';
 import { CurrentpageService } from '../services/currentpage.service';
 import { BaseFile, Dir, SizeType } from './table/fileinfo';

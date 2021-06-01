@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z6">
   <mat-card-title>
-    <app-bread (changePage)="resetTableData($event)"></app-bread>
+    <app-bread></app-bread>
   </mat-card-title>
   <mat-card-content>
     <table *ngIf="dataSource.data" mat-table [dataSource]="dataSource" style="width: 100%;" matSort>

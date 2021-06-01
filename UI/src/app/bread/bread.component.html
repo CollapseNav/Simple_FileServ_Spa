@@ -1,1 +1,1 @@
-<button mat-raised-button *ngFor="let item of pageRoute" (click)="popTo(item)">{{item.fileName}} </button>
+<button mat-raised-button *ngFor="let item of cur.getPageRoute()" (click)="popTo(item)">{{item.fileName}} </button>

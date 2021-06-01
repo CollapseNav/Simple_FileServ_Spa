@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer, MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { environment } from 'src/environments/environment';
-import { FileTypeApi, TableApi } from './api/tableApi';
+import { FileTypeApi, TableApi } from './api/Api';
 import { PreviewComponent, PreviewType } from './preview/preview.component';
 import { CurrentpageService } from './services/currentpage.service';
 import { BaseFile, ConvertSize } from './table/table/fileinfo';

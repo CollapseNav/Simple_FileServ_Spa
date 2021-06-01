@@ -9,16 +9,11 @@ import { Dir } from '../table/table/fileinfo';
   styleUrls: ['./bread.component.sass']
 })
 export class BreadComponent implements OnInit {
-  @Output() changePage = new EventEmitter<Dir>();
-  pageRoute: Dir[];
   constructor(public cur: CurrentpageService) { }
-
   ngOnInit(): void {
-    this.pageRoute = this.cur.getPageRoute();
   };
   /**定位到某个文件夹 */
   popTo(page: Dir) {
-    this.pageRoute.splice(this.pageRoute.indexOf(page));
-    this.changePage.emit(page);
+    this.cur.popTo(page);
   }
 }

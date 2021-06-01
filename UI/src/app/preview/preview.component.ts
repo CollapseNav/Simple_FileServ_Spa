@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TableApi } from '../api/tableApi';
+import { TableApi } from '../api/Api';
 import { MFile } from '../table/table/fileinfo';
 
 export enum PreviewType {
@@ -59,15 +59,38 @@ export class PreviewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.type = this.getPreview(this.file.contentType);
     this.previewDialog = this.dialog.getDialogById(this.file.id);
+    this.previewDialog.keydownEvents().subscribe((res: KeyboardEvent) => {
+      switch (res.code.toLowerCase()) {
+        case 'space':
+          this.play();
+          break;
+        case 'arrowleft':
+          this.backSecond();
+          break;
+        case 'arrowright':
+          this.nextSecond();
+          break;
+      }
+    });
     this.previewDialog.updateSize('60%');
   }
   /** 双击事件 */
-  doubleClick() {
+  doubleClick(): void {
     this.isFullScreen ? this.video.ownerDocument.exitFullscreen().then(item => this.isFullScreen = false) : this.video.requestFullscreen({ navigationUI: 'show' }).then(item => this.isFullScreen = true);
 
   }
+  /** 向后 默认5秒 */
+  nextSecond(len: number = 5): void {
+    this.video.currentTime += len;
+    // this.sliderValue = this.video.currentTime;
+  }
+  /** 向前 默认5秒 */
+  backSecond(len: number = 5): void {
+    this.video.currentTime -= len;
+    // this.sliderValue = this.video.currentTime;
+  }
   /** 播放或暂停 */
-  play() {
+  play(): void {
     if (this.video) {
       this.paused ? this.video.play() : this.video.pause();
     }
@@ -91,12 +114,12 @@ export class PreviewComponent implements OnInit, AfterViewInit {
     return this.convertNumberToTime(num / 60) + ':' + Math.ceil(num % 60).toString().padStart(2, '0');
   }
 
-  sliderValueChange(value) {
+  sliderValueChange(value): void {
     this.disableDrag = false;
   }
 
   /** 拖动进度条时触发 */
-  onTouched(event: MatSliderChange) {
+  onTouched(event: MatSliderChange): void {
     this.disableDrag = true;
     this.video.currentTime = event.value;
   }

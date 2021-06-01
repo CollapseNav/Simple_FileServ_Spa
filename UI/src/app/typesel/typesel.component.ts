@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBarContainer } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
-import { FileTypeApi } from '../api/tableApi';
+import { FileTypeApi } from '../api/Api';
 import { SnackBarService } from '../services/snackbar.service';
 import { NewtypeComponent } from './newtype/newtype.component';
 import { FileType, SelConfig } from './selconfig';

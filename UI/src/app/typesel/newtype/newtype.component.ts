@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NewdirComponent } from 'src/app/toolbar/newdir/newdir.component';
 import { environment } from 'src/environments/environment';
-import { FileTypeApi } from 'src/app/api/tableApi';
+import { FileTypeApi } from 'src/app/api/Api';
 import { MatIconRegistry } from '@angular/material/icon';
 import { FileType } from '../selconfig';
 

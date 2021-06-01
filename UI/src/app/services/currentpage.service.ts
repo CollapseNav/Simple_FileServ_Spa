@@ -20,6 +20,11 @@ export class CurrentpageService {
     return this.tablePage;
   }
 
+  popTo(page: Dir): void {
+    this.tablePage.splice(this.tablePage.indexOf(page));
+    this.add(page);
+  }
+
   /** 获取目录 路径(string) */
   getPageRouteString(): string {
     return this.tablePage.map(item => item.fileName).join('/');

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { FileApi } from '../api/tableApi';
+import { FileApi } from '../api/Api';
 import { NavConfig } from '../app.component';
 import { CurrentpageService } from '../services/currentpage.service';
 import { MFile } from '../table/table/fileinfo';

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { TableApi } from '../api/tableApi';
+import { TableApi } from '../api/Api';
 import { MFile } from '../table/table/fileinfo';
 import { CurrentpageService } from './currentpage.service';
 
