@@ -7,7 +7,8 @@ import { environment } from 'src/environments/environment';
 import { FileTypeApi, TableApi } from './api/Api';
 import { PreviewComponent, PreviewType } from './preview/preview.component';
 import { CurrentpageService } from './services/currentpage.service';
-import { BaseFile, ConvertSize } from './table/table/fileinfo';
+import { DownloadService } from './services/download.service';
+import { BaseFile, ConvertSize, MFile } from './table/table/fileinfo';
 import { ButtonStyle, ColumnBtnEvent, TableConfig } from './table/table/tablecolumn';
 import { FileType, SelConfig } from './typesel/selconfig';
 
@@ -34,19 +35,23 @@ export class AppComponent implements OnInit {
   sideMode: MatDrawerMode = 'side';
   tc: TableConfig<BaseFile> = {
     columns: [
-      { label: 'Name', valIndex: 'fileName', sort: true, format: item => item.fileName },
+      { label: 'Name', valIndex: 'fileName', sort: true, icon: item => 'folder', format: item => item.fileName },
       { label: 'CreateTime', valIndex: 'addTime', sort: true, format: item => new Date(item.addTime).toLocaleDateString() },
-      { label: 'Ext', valIndex: 'ext', sort: true },
+      { label: 'Ext', valIndex: 'ext', sort: true, format: item => item.ext ? item.ext : 'folder' },
       { label: 'Size', valIndex: 'size', sort: true, format: item => ConvertSize(item.size) },
       { label: 'ConType', valIndex: 'contentType', sort: true, maxLen: 10 },
       {
         label: 'Actions', valIndex: 'actions',
         buttons: [
           {
-            content: '下载', style: ButtonStyle.link,
-            getUrl: item => {
-              return `${environment.BaseUrl}${TableApi.downloadFile}` + '/' + item.id;
+            content: '下载', style: ButtonStyle.raised,
+            type: ColumnBtnEvent.action,
+            click: item => {
+              this.download.downloadFile(item.id);
             },
+            // getUrl: item => {
+            //   return `${environment.BaseUrl}${TableApi.downloadFile}` + '/' + item.id;
+            // },
             isHidden: item => !!item['contentType'],
           },
           {
@@ -106,6 +111,7 @@ export class AppComponent implements OnInit {
   constructor(public breakobs: BreakpointObserver,
     public cur: CurrentpageService,
     public dialog: MatDialog,
+    public download: DownloadService,
     public http: HttpClient) {
     this.checkNavClose();
     this.checkNavOpen();

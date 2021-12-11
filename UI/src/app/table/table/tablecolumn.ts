@@ -2,8 +2,13 @@ export interface TableConfig<T> {
   url?: string;
   columns: TableColumn<T>[];
 }
+
+export interface TableIconConfig {
+  iconContent: string;
+}
 export interface TableColumn<T> {
   label: string;
+  icon?: (item: T) => string;
   valIndex?: string;
   maxLen?: number;
   format?: (item: T) => any;

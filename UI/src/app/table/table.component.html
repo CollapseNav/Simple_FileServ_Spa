@@ -13,13 +13,17 @@
           <th mat-header-cell *matHeaderCellDef> {{item.label}} </th>
         </ng-template>
         <td mat-cell *matCellDef="let element" (dblclick)="doubleClick(element)">
-          <ng-container *ngIf="item.buttons;else noBtn">
-            <ng-container *ngFor="let btn of item.buttons">
-              <app-tablebutton [btn]="btn" [item]="element" (del)="delete($event)">
-              </app-tablebutton>
+            <ng-container *ngIf="item.buttons;else noBtn">
+              <ng-container *ngFor="let btn of item.buttons">
+                <app-tablebutton [btn]="btn" [item]="element" (del)="delete($event)">
+                </app-tablebutton>
+              </ng-container>
             </ng-container>
-          </ng-container>
-          <ng-template #noBtn> {{format(element,item)}}</ng-template>
+            <ng-template #noBtn>
+              <span>
+                {{format(element,item)}}
+              </span>
+            </ng-template>
         </td>
       </ng-container>
 

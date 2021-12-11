@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrentpageService } from '../services/currentpage.service';
 import { Dir } from '../table/table/fileinfo';
 

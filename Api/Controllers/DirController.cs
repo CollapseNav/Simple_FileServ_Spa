@@ -7,7 +7,6 @@ using Api.Dto;
 using Api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Api.Controller
@@ -42,7 +41,7 @@ namespace Api.Controller
             if (Directory.Exists(fullPath)) return null;
 
             if (!input.TypeId.HasValue)
-                input.TypeId = (await _fileType.GetTypeByExtAsync(input.Ext)).Id;
+                input.TypeId = (await _fileType.GetTypeByExtAsync(input.Ext))?.Id;
 
             await _db.AddAsync(input);
             Directory.CreateDirectory(fullPath);
@@ -56,14 +55,22 @@ namespace Api.Controller
         {
             var query = _db.Where(item => item.MapPath == string.Empty);
             if (query.Any())
-                return await query.Include(item => item.Dirs).Include(item => item.Files).FirstAsync();
+                return await query.Include(item => item.Dirs)
+                .ThenInclude(item => item.FileType)
+                .Include(item => item.Files)
+                .ThenInclude(item => item.FileType)
+                .FirstOrDefaultAsync();
             else return null;
         }
 
         [HttpGet, Route("GetDirTree")]
         public async Task<Dir> GetDirTreeAsync(Guid? id)
         {
-            var dir = await _db.Where(item => item.Id == id).Include(item => item.FileType).Include(item => item.Dirs).Include(item => item.Files).FirstOrDefaultAsync();
+            var dir = await _db.Where(item => item.Id == id)
+            .Include(item => item.FileType)
+            .Include(item => item.Dirs)
+            .Include(item => item.Files)
+            .FirstOrDefaultAsync();
             return dir;
         }
 

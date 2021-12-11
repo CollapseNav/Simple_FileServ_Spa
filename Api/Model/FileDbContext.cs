@@ -30,7 +30,6 @@ namespace Api.Model
                 try
                 {
                     Directory.CreateDirectory(_config.FileStore + _config.FullPath);
-                    Console.WriteLine(_config.FileStore + _config.FullPath);
                 }
                 catch { }
             }
