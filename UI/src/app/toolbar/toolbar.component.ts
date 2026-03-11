@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class ToolbarComponent implements OnInit {
   @Output() collapse = new EventEmitter<boolean>();
   @ViewChild('filenameInput', { static: true }) filenameInput: ElementRef;
   @Input() navConfig: NavConfig;
-  myControl = new FormControl();
+  myControl = new UntypedFormControl();
 
   filename: string = '';
   constructor(public cur: CurrentpageService,
