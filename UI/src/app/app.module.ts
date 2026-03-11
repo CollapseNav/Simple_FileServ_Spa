@@ -48,7 +48,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { TypeselComponent } from './typesel/typesel.component';
@@ -109,31 +109,24 @@ const AllMaterialModules = [
   LayoutModule];
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ToolbarComponent,
-    TypeselComponent,
-    TableComponent,
-    BreadComponent,
-    NewdirComponent,
-    UploadComponent,
-    TablebuttonComponent,
-    NewtypeComponent,
-    PreviewComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    ...AllMaterialModules,
-    BrowserAnimationsModule
-  ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
-  }],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        ToolbarComponent,
+        TypeselComponent,
+        TableComponent,
+        BreadComponent,
+        NewdirComponent,
+        UploadComponent,
+        TablebuttonComponent,
+        NewtypeComponent,
+        PreviewComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ...AllMaterialModules,
+        BrowserAnimationsModule], providers: [{
+            provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
+        }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
