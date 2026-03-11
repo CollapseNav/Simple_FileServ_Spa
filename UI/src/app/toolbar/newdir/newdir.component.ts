@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TableApi } from 'src/app/api/Api';
 import { CurrentpageService } from 'src/app/services/currentpage.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';

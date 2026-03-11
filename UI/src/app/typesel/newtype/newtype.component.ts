@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NewdirComponent } from 'src/app/toolbar/newdir/newdir.component';
 import { environment } from 'src/environments/environment';

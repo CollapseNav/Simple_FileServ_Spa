@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSliderChange } from '@angular/material/slider';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
 import { fromEvent } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TableApi } from '../api/Api';

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { environment } from 'src/environments/environment';
 import { TableApi } from '../api/Api';
 import { PreviewComponent } from '../preview/preview.component';

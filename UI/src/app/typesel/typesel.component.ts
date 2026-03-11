@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { MatSnackBarContainer } from '@angular/material/snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySelectionList as MatSelectionList, MatLegacySelectionListChange as MatSelectionListChange } from '@angular/material/legacy-list';
+import { MatLegacySnackBarContainer as MatSnackBarContainer } from '@angular/material/legacy-snack-bar';
 import { environment } from 'src/environments/environment';
 import { FileTypeApi } from '../api/Api';
 import { SnackBarService } from '../services/snackbar.service';
