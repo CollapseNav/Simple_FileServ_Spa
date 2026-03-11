@@ -11,15 +11,15 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>后缀</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
-      <mat-chip *ngFor="let ext of exts" [selectable]="true" [removable]="true" (removed)="remove(ext)">
+    <mat-chip-grid #chipList aria-label="Fruit selection">
+      <mat-chip-row *ngFor="let ext of exts" [selectable]="true" [removable]="true" (removed)="remove(ext)">
         {{ext}}
         <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-      </mat-chip>
+      </mat-chip-row>
       <input placeholder="New fruit..." [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
         (matChipInputTokenEnd)="add($event)">
-    </mat-chip-list>
+    </mat-chip-grid>
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="action">

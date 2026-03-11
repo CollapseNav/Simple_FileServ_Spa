@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { BaseFile, Dir, MFile, SizeType } from '../table/table/fileinfo';
 
 @Injectable({

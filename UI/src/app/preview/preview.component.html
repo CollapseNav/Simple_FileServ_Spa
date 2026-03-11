@@ -12,8 +12,8 @@
       </span>
     </div>
     <div *ngIf="type==='video'" class="slider-bar">
-      <mat-slider [(ngModel)]="sliderValue" style="width: 100%;" tickInterval="1000" [min]="sliderMin" [max]="sliderMax"
-        [value]="sliderValue" (input)="onTouched($event)" (change)="sliderValueChange($event)" #slider></mat-slider>
+      <!-- TODO: The 'tickInterval' property no longer exists -->
+      <mat-slider [(ngModel)]="sliderValue" style="width: 100%;" [min]="sliderMin" [max]="sliderMax" #slider #ngSlider><input matSliderThumb [value]="sliderValue" (input)="onTouched({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" (change)="sliderValueChange({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" /></mat-slider>
       <span>{{currentTime + '/' + totalTime}}</span>
     </div>
   </div>

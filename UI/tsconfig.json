@@ -16,6 +16,11 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
+    "paths": {
+      "tslib": [
+        "node_modules/tslib/tslib.d.ts"
+      ] // 显式告诉 TS 路径
+    },
     "lib": [
       "es2018",
       "dom"

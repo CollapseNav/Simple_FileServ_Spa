@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CurrentpageService } from 'src/app/services/currentpage.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { UploadFile, UploadService } from 'src/app/services/upload.service';
